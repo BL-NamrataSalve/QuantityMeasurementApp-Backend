@@ -2,16 +2,14 @@ package com.qm.quantitymeasurement.enums;
 
 import com.qm.quantitymeasurement.contracts.IMeasurable;
 
-public enum LengthUnit implements IMeasurable {
-    FEET(30.48),
-    INCH(2.54),
-    YARD(91.44),
-    CENTIMETER(1);
-
+public enum WeightUnit implements IMeasurable {
+    GRAM(1),
+    KILOGRAM(1000),
+    TONNE(1000000);
 
     private final double conversionFactor;
 
-    LengthUnit(double conversionFactor) {
+    WeightUnit(double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
 
@@ -29,7 +27,6 @@ public enum LengthUnit implements IMeasurable {
 
     @Override
     public MeasurementType getMeasurementType() {
-        return MeasurementType.LENGTH;
+        return MeasurementType.WEIGHT;
     }
-
 }

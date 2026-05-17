@@ -96,6 +96,14 @@ public class Quantity {
                         "Quantity cannot be null"
                 );
             }
+
+            if (this.unit.getMeasurementType()
+                    != quantity.unit.getMeasurementType()) {
+
+                throw new IllegalArgumentException(
+                        "Different measurement categories"
+                );
+            }
         }
 
     private double roundValue(double value) {

@@ -1,6 +1,7 @@
 package com.qm.quantitymeasurement;
 
 import com.qm.quantitymeasurement.enums.LengthUnit;
+import com.qm.quantitymeasurement.enums.WeightUnit;
 import com.qm.quantitymeasurement.model.Quantity;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -197,6 +198,59 @@ public class QuantityTest {
         assertEquals(
                 expected,
                 feet.add(yard, LengthUnit.YARD)
+        );
+    }
+
+    @Test
+    void shouldReturnTrueForGramAndKilogramEquality() {
+
+        Quantity gram =
+                new Quantity(1000,
+                        WeightUnit.GRAM);
+
+        Quantity kilogram =
+                new Quantity(1,
+                        WeightUnit.KILOGRAM);
+
+        assertEquals(gram, kilogram);
+    }
+
+    @Test
+    void shouldAddGramAndKilogram() {
+
+        Quantity gram =
+                new Quantity(500,
+                        WeightUnit.GRAM);
+
+        Quantity kilogram =
+                new Quantity(1,
+                        WeightUnit.KILOGRAM);
+
+        Quantity expected =
+                new Quantity(1500,
+                        WeightUnit.GRAM);
+
+        assertEquals(
+                expected,
+                gram.add(kilogram,
+                        WeightUnit.GRAM)
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionForDifferentMeasurementCategories() {
+
+        Quantity length =
+                new Quantity(1,
+                        LengthUnit.FEET);
+
+        Quantity weight =
+                new Quantity(1,
+                        WeightUnit.KILOGRAM);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> length.add(weight)
         );
     }
 
