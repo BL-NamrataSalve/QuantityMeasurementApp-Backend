@@ -16,4 +16,9 @@ public enum Unit {
     public double convertToBaseUnit(double value) {
         return value * conversionFactor;
     }
+
+    public double convertFromBaseUnit(double baseValue) {
+        return baseValue / conversionFactor;
+    }
+
 }

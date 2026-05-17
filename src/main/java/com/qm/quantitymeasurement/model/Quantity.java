@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Quantity {
 
+    private static final double EPSILON = 0.0001;
+
     private final double value;
     private final Unit unit;
 
@@ -26,6 +28,16 @@ public class Quantity {
         return unit.convertToBaseUnit(value);
     }
 
+    public Quantity convertTo(Unit targetUnit) {
+
+        double baseValue = getValueInBaseUnit();
+
+        double convertedValue =
+                targetUnit.convertFromBaseUnit(baseValue);
+
+        return new Quantity(convertedValue, targetUnit);
+    }
+
     @Override
     public boolean equals(Object object) {
 
@@ -42,12 +54,16 @@ public class Quantity {
         return Math.abs(
                 this.getValueInBaseUnit()
                         - quantity.getValueInBaseUnit()
-        ) < 0.0001;
+        ) < EPSILON;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(value, unit);
+    }
+    @Override
+    public String toString() {
+        return value + " " + unit;
     }
 
 }

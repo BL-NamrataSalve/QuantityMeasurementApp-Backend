@@ -53,4 +53,30 @@ public class QuantityTest {
         assertNotEquals(feet, inch);
     }
 
+    @Test
+    void shouldConvertFeetToInch() {
+
+        Quantity feet = new Quantity(1, Unit.FEET);
+
+        Quantity expected =
+                new Quantity(12, Unit.INCH);
+
+        assertEquals(expected,
+                feet.convertTo(Unit.INCH));
+    }
+
+    @Test
+    void shouldConvertYardToCentimeter() {
+
+        Quantity yard =
+                new Quantity(1, Unit.YARD);
+
+        Quantity expected =
+                new Quantity(91.44,
+                        Unit.CENTIMETER);
+
+        assertEquals(expected,
+                yard.convertTo(Unit.CENTIMETER));
+    }
+
 }
