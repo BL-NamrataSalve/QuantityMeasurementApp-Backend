@@ -10,7 +10,7 @@ public enum Unit {
         this.conversionFactor = conversionFactor;
     }
 
-    public double toBaseUnit(double value) {
+    public double convertToBaseUnit(double value) {
         return value * conversionFactor;
     }
 }

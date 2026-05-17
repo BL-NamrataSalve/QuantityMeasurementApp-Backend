@@ -5,6 +5,7 @@ import com.qm.quantitymeasurement.model.Quantity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class QuantityTest {
     @Test
@@ -23,6 +24,15 @@ public class QuantityTest {
         Quantity inch = new Quantity(12, Unit.INCH);
 
         assertEquals(feet, inch);
+    }
+
+    @Test
+    void shouldReturnFalseForDifferentValues() {
+
+        Quantity feet = new Quantity(1, Unit.FEET);
+        Quantity inch = new Quantity(11, Unit.INCH);
+
+        assertNotEquals(feet, inch);
     }
 
 }

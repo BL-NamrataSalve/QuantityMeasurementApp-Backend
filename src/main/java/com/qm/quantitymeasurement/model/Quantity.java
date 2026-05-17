@@ -22,6 +22,10 @@ public class Quantity {
         return unit;
     }
 
+    private double getValueInBaseUnit() {
+        return unit.convertToBaseUnit(value);
+    }
+
     @Override
     public boolean equals(Object object) {
 
@@ -35,14 +39,9 @@ public class Quantity {
 
         Quantity quantity = (Quantity) object;
 
-        double currentValueInBaseUnit = unit.toBaseUnit(value);
-        double otherValueInBaseUnit =
-                quantity.unit.toBaseUnit(quantity.value);
-
-
         return Double.compare(
-                currentValueInBaseUnit,
-                otherValueInBaseUnit
+                this.getValueInBaseUnit(),
+                quantity.getValueInBaseUnit()
         ) == 0;
     }
 
