@@ -1,6 +1,8 @@
 package com.qm.quantitymeasurement.enums;
 
-public enum Unit {
+import com.qm.quantitymeasurement.contracts.IMeasurable;
+
+public enum LengthUnit implements IMeasurable {
     FEET(30.48),
     INCH(2.54),
     YARD(91.44),
@@ -9,15 +11,19 @@ public enum Unit {
 
     private final double conversionFactor;
 
-    Unit(double conversionFactor) {
+    LengthUnit(double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
 
+    @Override
     public double convertToBaseUnit(double value) {
         return value * conversionFactor;
     }
 
-    public double convertFromBaseUnit(double baseValue) {
+    @Override
+    public double convertFromBaseUnit(
+            double baseValue
+    ) {
         return baseValue / conversionFactor;
     }
 

@@ -1,6 +1,6 @@
 package com.qm.quantitymeasurement;
 
-import com.qm.quantitymeasurement.enums.Unit;
+import com.qm.quantitymeasurement.enums.LengthUnit;
 import com.qm.quantitymeasurement.model.Quantity;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,8 +11,8 @@ public class QuantityTest {
     @Test
     void shouldReturnTrueForSameFeetValues() {
 
-        Quantity firstFeet = new Quantity(1, Unit.FEET);
-        Quantity secondFeet = new Quantity(1, Unit.FEET);
+        Quantity firstFeet = new Quantity(1, LengthUnit.FEET);
+        Quantity secondFeet = new Quantity(1, LengthUnit.FEET);
 
         assertEquals(firstFeet, secondFeet);
     }
@@ -20,8 +20,8 @@ public class QuantityTest {
     @Test
     void shouldReturnTrueForFeetAndInchEquality() {
 
-        Quantity feet = new Quantity(1, Unit.FEET);
-        Quantity inch = new Quantity(12, Unit.INCH);
+        Quantity feet = new Quantity(1, LengthUnit.FEET);
+        Quantity inch = new Quantity(12, LengthUnit.INCH);
 
         assertEquals(feet, inch);
     }
@@ -29,8 +29,8 @@ public class QuantityTest {
     @Test
     void shouldReturnTrueForFeetAndYardEquality() {
 
-        Quantity feet = new Quantity(3, Unit.FEET);
-        Quantity yard = new Quantity(1, Unit.YARD);
+        Quantity feet = new Quantity(3, LengthUnit.FEET);
+        Quantity yard = new Quantity(1, LengthUnit.YARD);
 
         assertEquals(feet, yard);
     }
@@ -38,8 +38,8 @@ public class QuantityTest {
     @Test
     void shouldReturnTrueForInchAndCentimeterEquality() {
 
-        Quantity inch = new Quantity(1, Unit.INCH);
-        Quantity centimeter = new Quantity(2.54, Unit.CENTIMETER);
+        Quantity inch = new Quantity(1, LengthUnit.INCH);
+        Quantity centimeter = new Quantity(2.54, LengthUnit.CENTIMETER);
 
         assertEquals(inch, centimeter);
     }
@@ -47,8 +47,8 @@ public class QuantityTest {
     @Test
     void shouldReturnFalseForDifferentValues() {
 
-        Quantity feet = new Quantity(1, Unit.FEET);
-        Quantity inch = new Quantity(11, Unit.INCH);
+        Quantity feet = new Quantity(1, LengthUnit.FEET);
+        Quantity inch = new Quantity(11, LengthUnit.INCH);
 
         assertNotEquals(feet, inch);
     }
@@ -56,41 +56,41 @@ public class QuantityTest {
     @Test
     void shouldConvertFeetToInch() {
 
-        Quantity feet = new Quantity(1, Unit.FEET);
+        Quantity feet = new Quantity(1, LengthUnit.FEET);
 
         Quantity expected =
-                new Quantity(12, Unit.INCH);
+                new Quantity(12, LengthUnit.INCH);
 
         assertEquals(expected,
-                feet.convertTo(Unit.INCH));
+                feet.convertTo(LengthUnit.INCH));
     }
 
     @Test
     void shouldConvertYardToCentimeter() {
 
         Quantity yard =
-                new Quantity(1, Unit.YARD);
+                new Quantity(1, LengthUnit.YARD);
 
         Quantity expected =
                 new Quantity(91.44,
-                        Unit.CENTIMETER);
+                        LengthUnit.CENTIMETER);
 
         assertEquals(expected,
-                yard.convertTo(Unit.CENTIMETER));
+                yard.convertTo(LengthUnit.CENTIMETER));
     }
 
     @Test
     void shouldAddFeetAndInchValues() {
 
         Quantity feet =
-                new Quantity(1, Unit.FEET);
+                new Quantity(1, LengthUnit.FEET);
 
         Quantity inch =
-                new Quantity(2, Unit.INCH);
+                new Quantity(2, LengthUnit.INCH);
 
         Quantity expected =
                 new Quantity(35.56,
-                        Unit.CENTIMETER);
+                        LengthUnit.CENTIMETER);
 
         assertEquals(expected,
                 feet.add(inch));
@@ -100,14 +100,14 @@ public class QuantityTest {
     void shouldAddTwoFeetValues() {
 
         Quantity firstFeet =
-                new Quantity(1, Unit.FEET);
+                new Quantity(1, LengthUnit.FEET);
 
         Quantity secondFeet =
-                new Quantity(1, Unit.FEET);
+                new Quantity(1, LengthUnit.FEET);
 
         Quantity expected =
                 new Quantity(60.96,
-                        Unit.CENTIMETER);
+                        LengthUnit.CENTIMETER);
 
         assertEquals(expected,
                 firstFeet.add(secondFeet));
@@ -117,10 +117,10 @@ public class QuantityTest {
     void shouldReturnSameResultForCommutativeAddition() {
 
         Quantity feet =
-                new Quantity(1, Unit.FEET);
+                new Quantity(1, LengthUnit.FEET);
 
         Quantity inch =
-                new Quantity(2, Unit.INCH);
+                new Quantity(2, LengthUnit.INCH);
 
         assertEquals(
                 feet.add(inch),
@@ -133,7 +133,7 @@ public class QuantityTest {
 
         assertThrows(
                 IllegalArgumentException.class,
-                () -> new Quantity(-1, Unit.FEET)
+                () -> new Quantity(-1, LengthUnit.FEET)
         );
     }
 
@@ -150,17 +150,17 @@ public class QuantityTest {
     void shouldAddFeetAndInchInTargetUnitInch() {
 
         Quantity feet =
-                new Quantity(1, Unit.FEET);
+                new Quantity(1, LengthUnit.FEET);
 
         Quantity inch =
-                new Quantity(2, Unit.INCH);
+                new Quantity(2, LengthUnit.INCH);
 
         Quantity expected =
-                new Quantity(14, Unit.INCH);
+                new Quantity(14, LengthUnit.INCH);
 
         assertEquals(
                 expected,
-                feet.add(inch, Unit.INCH)
+                feet.add(inch, LengthUnit.INCH)
         );
     }
 
@@ -168,17 +168,17 @@ public class QuantityTest {
     void shouldAddFeetAndInchInTargetUnitFeet() {
 
         Quantity feet =
-                new Quantity(1, Unit.FEET);
+                new Quantity(1, LengthUnit.FEET);
 
         Quantity inch =
-                new Quantity(2, Unit.INCH);
+                new Quantity(2, LengthUnit.INCH);
 
         Quantity expected =
-                new Quantity(1.17, Unit.FEET);
+                new Quantity(1.17, LengthUnit.FEET);
 
         assertEquals(
                 expected,
-                feet.add(inch, Unit.FEET)
+                feet.add(inch, LengthUnit.FEET)
         );
     }
 
@@ -186,17 +186,17 @@ public class QuantityTest {
     void shouldAddFeetAndYardInTargetUnitYard() {
 
         Quantity feet =
-                new Quantity(3, Unit.FEET);
+                new Quantity(3, LengthUnit.FEET);
 
         Quantity yard =
-                new Quantity(1, Unit.YARD);
+                new Quantity(1, LengthUnit.YARD);
 
         Quantity expected =
-                new Quantity(2, Unit.YARD);
+                new Quantity(2, LengthUnit.YARD);
 
         assertEquals(
                 expected,
-                feet.add(yard, Unit.YARD)
+                feet.add(yard, LengthUnit.YARD)
         );
     }
 

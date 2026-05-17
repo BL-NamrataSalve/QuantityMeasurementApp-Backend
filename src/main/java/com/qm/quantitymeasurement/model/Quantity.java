@@ -1,6 +1,7 @@
 package com.qm.quantitymeasurement.model;
 
-import com.qm.quantitymeasurement.enums.Unit;
+import com.qm.quantitymeasurement.contracts.IMeasurable;
+import com.qm.quantitymeasurement.enums.LengthUnit;
 
 import java.util.Objects;
 
@@ -11,9 +12,9 @@ public class Quantity {
     private static final double EPSILON = 0.0001;
 
     private final double value;
-    private final Unit unit;
+    private final IMeasurable unit;
 
-    public Quantity(double value, Unit unit) {
+    public Quantity(double value, IMeasurable unit) {
         validate(value, unit);
         this.value = value;
         this.unit = unit;
@@ -23,11 +24,11 @@ public class Quantity {
         return value;
     }
 
-    public Unit getUnit() {
+    public IMeasurable getUnit() {
         return unit;
     }
 
-    public Quantity convertTo(Unit targetUnit) {
+    public Quantity convertTo(IMeasurable targetUnit) {
 
         double baseValue = getValueInBaseUnit();
 
@@ -38,14 +39,11 @@ public class Quantity {
     }
 
     public Quantity add(Quantity other) {
-        return add(other, Unit.CENTIMETER);
+        return add(other, LengthUnit.CENTIMETER);
     }
 
-    public Quantity add(
-            Quantity other,
-            Unit targetUnit
+    public Quantity add(Quantity other, IMeasurable targetUnit
     ) {
-
         validateQuantity(other);
 
         double totalBaseValue =
@@ -73,7 +71,10 @@ public class Quantity {
         return unit.convertToBaseUnit(value);
     }
 
-    private void validate(double value, Unit unit) {
+    private void validate(
+            double value,
+            IMeasurable unit
+    ) {
 
         if (unit == null) {
             throw new IllegalArgumentException(
