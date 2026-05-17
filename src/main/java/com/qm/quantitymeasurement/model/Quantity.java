@@ -36,7 +36,7 @@ public class Quantity<T extends IMeasurable>{
                 targetUnit.convertFromBaseUnit(baseValue);
 
         return new Quantity<>(
-                convertedValue,
+                roundValue(convertedValue),
                 targetUnit
         );
     }

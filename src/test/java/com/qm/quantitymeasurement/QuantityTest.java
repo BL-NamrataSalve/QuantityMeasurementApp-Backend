@@ -1,6 +1,7 @@
 package com.qm.quantitymeasurement;
 
 import com.qm.quantitymeasurement.enums.LengthUnit;
+import com.qm.quantitymeasurement.enums.VolumeUnit;
 import com.qm.quantitymeasurement.enums.WeightUnit;
 import com.qm.quantitymeasurement.model.Quantity;
 import org.junit.jupiter.api.Test;
@@ -245,6 +246,103 @@ public class QuantityTest {
                 expected,
                 gram.add(kilogram,
                         WeightUnit.GRAM)
+        );
+    }
+
+    @Test
+    void shouldReturnTrueForMillilitreAndLitreEquality() {
+
+        Quantity<VolumeUnit> millilitre =
+                new Quantity<>(1000,
+                        VolumeUnit.MILLILITRE);
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1,
+                        VolumeUnit.LITRE);
+
+        assertEquals(millilitre, litre);
+    }
+
+    @Test
+    void shouldConvertLitreToMillilitre() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> expected =
+                new Quantity<>(1000,
+                        VolumeUnit.MILLILITRE);
+
+        assertEquals(
+                expected,
+                litre.convertTo(
+                        VolumeUnit.MILLILITRE
+                )
+        );
+    }
+
+    @Test
+    void shouldConvertGallonToLitre() {
+
+        Quantity<VolumeUnit> gallon =
+                new Quantity<>(1,
+                        VolumeUnit.GALLON);
+
+        Quantity<VolumeUnit> expected =
+                new Quantity<>(3.79,
+                        VolumeUnit.LITRE);
+
+        assertEquals(
+                expected,
+                gallon.convertTo(
+                        VolumeUnit.LITRE
+                )
+        );
+    }
+
+    @Test
+    void shouldAddLitreAndMillilitre() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> millilitre =
+                new Quantity<>(500,
+                        VolumeUnit.MILLILITRE);
+
+        Quantity<VolumeUnit> expected =
+                new Quantity<>(1500,
+                        VolumeUnit.MILLILITRE);
+
+        assertEquals(
+                expected,
+                litre.add(millilitre)
+        );
+    }
+
+    @Test
+    void shouldAddGallonAndLitreInTargetUnitLitre() {
+
+        Quantity<VolumeUnit> gallon =
+                new Quantity<>(1,
+                        VolumeUnit.GALLON);
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> expected =
+                new Quantity<>(4.79,
+                        VolumeUnit.LITRE);
+
+        assertEquals(
+                expected,
+                gallon.add(
+                        litre,
+                        VolumeUnit.LITRE
+                )
         );
     }
 
