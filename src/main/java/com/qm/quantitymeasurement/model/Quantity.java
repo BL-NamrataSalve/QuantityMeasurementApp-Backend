@@ -2,6 +2,7 @@ package com.qm.quantitymeasurement.model;
 
 import com.qm.quantitymeasurement.contracts.IMeasurable;
 import com.qm.quantitymeasurement.enums.LengthUnit;
+import com.qm.quantitymeasurement.operations.OperationType;
 
 import java.util.Objects;
 
@@ -45,34 +46,30 @@ public class Quantity<T extends IMeasurable>{
             Quantity<T> other
     ) {
 
-        validateQuantity(other);
+        T baseUnit =
+                (T) unit.getBaseUnit();
 
-        double totalBaseValue =
-                addBaseValues(other);
-
-        T baseUnit = (T) unit.getBaseUnit();
-
-        return new Quantity<>(
-                roundValue(totalBaseValue),
-                baseUnit
-        );
+        return add(other, baseUnit);
     }
 
     public Quantity<T> add(
             Quantity<T> other,
             T targetUnit
     ) {
-        validateQuantity(other);
 
-        double totalBaseValue =
-                addBaseValues(other);
+        double resultBaseValue =
+                performOperation(
+                        other,
+                        OperationType.ADDITION
+                );
 
         double convertedValue =
                 targetUnit.convertFromBaseUnit(
-                        totalBaseValue
+                        resultBaseValue
                 );
 
-        return new Quantity<>(roundValue(convertedValue),
+        return new Quantity<>(
+                roundValue(convertedValue),
                 targetUnit
         );
     }
@@ -81,18 +78,10 @@ public class Quantity<T extends IMeasurable>{
             Quantity<T> other
     ) {
 
-        validateQuantity(other);
-
-        double resultBaseValue =
-                subtractBaseValues(other);
-
         T baseUnit =
                 (T) unit.getBaseUnit();
 
-        return new Quantity<>(
-                roundValue(resultBaseValue),
-                baseUnit
-        );
+        return subtract(other, baseUnit);
     }
 
     public Quantity<T> subtract(
@@ -100,10 +89,11 @@ public class Quantity<T extends IMeasurable>{
             T targetUnit
     ) {
 
-        validateQuantity(other);
-
         double resultBaseValue =
-                subtractBaseValues(other);
+                performOperation(
+                        other,
+                        OperationType.SUBTRACTION
+                );
 
         double convertedValue =
                 targetUnit.convertFromBaseUnit(
@@ -139,24 +129,21 @@ public class Quantity<T extends IMeasurable>{
                 .convertTo(targetUnit);
     }
 
-    private double addBaseValues(
-            Quantity<T> other
-    ) {
-
-        return this.getValueInBaseUnit()
-                + other.getValueInBaseUnit();
-    }
-
-    private double subtractBaseValues(
-            Quantity<T> other
-    ) {
-
-        return this.getValueInBaseUnit()
-                - other.getValueInBaseUnit();
-    }
-
     private double getValueInBaseUnit() {
         return unit.convertToBaseUnit(value);
+    }
+
+    private double performOperation(
+            Quantity<T> other,
+            OperationType operationType
+    ) {
+
+        validateQuantity(other);
+
+        return operationType.apply(
+                this.getValueInBaseUnit(),
+                other.getValueInBaseUnit()
+        );
     }
 
     private void validate(
