@@ -32,4 +32,9 @@ public enum LengthUnit implements IMeasurable {
         return MeasurementType.LENGTH;
     }
 
+    @Override
+    public IMeasurable getBaseUnit() {
+        return CENTIMETER;
+    }
+
 }

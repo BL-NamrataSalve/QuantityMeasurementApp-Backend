@@ -7,14 +7,14 @@ import java.util.Objects;
 
 //import static java.lang.Math.round;
 
-public class Quantity {
+public class Quantity<T extends IMeasurable>{
 
     private static final double EPSILON = 0.0001;
 
     private final double value;
-    private final IMeasurable unit;
+    private final T unit;
 
-    public Quantity(double value, IMeasurable unit) {
+    public Quantity(double value, T unit) {
         validate(value, unit);
         this.value = value;
         this.unit = unit;
@@ -24,25 +24,43 @@ public class Quantity {
         return value;
     }
 
-    public IMeasurable getUnit() {
+    public T getUnit() {
         return unit;
     }
 
-    public Quantity convertTo(IMeasurable targetUnit) {
+    public Quantity<T> convertTo(T targetUnit) {
 
         double baseValue = getValueInBaseUnit();
 
         double convertedValue =
                 targetUnit.convertFromBaseUnit(baseValue);
 
-        return new Quantity(convertedValue, targetUnit);
+        return new Quantity<>(
+                convertedValue,
+                targetUnit
+        );
     }
 
-    public Quantity add(Quantity other) {
-        return add(other, LengthUnit.CENTIMETER);
+    public Quantity<T> add(
+            Quantity<T> other
+    ) {
+
+        validateQuantity(other);
+
+        double totalBaseValue =
+                addBaseValues(other);
+
+        T baseUnit = (T) unit.getBaseUnit();
+
+        return new Quantity<>(
+                roundValue(totalBaseValue),
+                baseUnit
+        );
     }
 
-    public Quantity add(Quantity other, IMeasurable targetUnit
+    public Quantity<T> add(
+            Quantity<T> other,
+            T targetUnit
     ) {
         validateQuantity(other);
 
@@ -54,13 +72,12 @@ public class Quantity {
                         totalBaseValue
                 );
 
-        return new Quantity(
-                roundValue(convertedValue),
+        return new Quantity<>(roundValue(convertedValue),
                 targetUnit
         );
     }
     private double addBaseValues(
-            Quantity other
+            Quantity<T> other
     ) {
 
         return this.getValueInBaseUnit()
@@ -89,7 +106,7 @@ public class Quantity {
         }
     }
 
-        private void validateQuantity(Quantity quantity) {
+        private void validateQuantity( Quantity<T> quantity) {
 
             if (quantity == null) {
                 throw new IllegalArgumentException(
@@ -121,7 +138,8 @@ public class Quantity {
             return false;
         }
 
-        Quantity quantity = (Quantity) object;
+        Quantity<?> quantity =
+                (Quantity<?>) object;
 
         return Math.abs(
                 this.getValueInBaseUnit()

@@ -29,4 +29,9 @@ public enum WeightUnit implements IMeasurable {
     public MeasurementType getMeasurementType() {
         return MeasurementType.WEIGHT;
     }
+
+    @Override
+    public IMeasurable getBaseUnit() {
+        return GRAM;
+    }
 }
