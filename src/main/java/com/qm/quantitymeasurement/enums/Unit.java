@@ -1,8 +1,11 @@
 package com.qm.quantitymeasurement.enums;
 
 public enum Unit {
-    FEET(12),
-    INCH(1);
+    FEET(30.48),
+    INCH(2.54),
+    YARD(91.44),
+    CENTIMETER(1);
+
 
     private final double conversionFactor;
 

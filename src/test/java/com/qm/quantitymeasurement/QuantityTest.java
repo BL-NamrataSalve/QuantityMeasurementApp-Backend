@@ -27,6 +27,24 @@ public class QuantityTest {
     }
 
     @Test
+    void shouldReturnTrueForFeetAndYardEquality() {
+
+        Quantity feet = new Quantity(3, Unit.FEET);
+        Quantity yard = new Quantity(1, Unit.YARD);
+
+        assertEquals(feet, yard);
+    }
+
+    @Test
+    void shouldReturnTrueForInchAndCentimeterEquality() {
+
+        Quantity inch = new Quantity(1, Unit.INCH);
+        Quantity centimeter = new Quantity(2.54, Unit.CENTIMETER);
+
+        assertEquals(inch, centimeter);
+    }
+
+    @Test
     void shouldReturnFalseForDifferentValues() {
 
         Quantity feet = new Quantity(1, Unit.FEET);

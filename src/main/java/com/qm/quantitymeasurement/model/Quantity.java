@@ -39,10 +39,10 @@ public class Quantity {
 
         Quantity quantity = (Quantity) object;
 
-        return Double.compare(
-                this.getValueInBaseUnit(),
-                quantity.getValueInBaseUnit()
-        ) == 0;
+        return Math.abs(
+                this.getValueInBaseUnit()
+                        - quantity.getValueInBaseUnit()
+        ) < 0.0001;
     }
 
     @Override
