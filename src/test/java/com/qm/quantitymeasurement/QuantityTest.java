@@ -146,4 +146,58 @@ public class QuantityTest {
         );
     }
 
+    @Test
+    void shouldAddFeetAndInchInTargetUnitInch() {
+
+        Quantity feet =
+                new Quantity(1, Unit.FEET);
+
+        Quantity inch =
+                new Quantity(2, Unit.INCH);
+
+        Quantity expected =
+                new Quantity(14, Unit.INCH);
+
+        assertEquals(
+                expected,
+                feet.add(inch, Unit.INCH)
+        );
+    }
+
+    @Test
+    void shouldAddFeetAndInchInTargetUnitFeet() {
+
+        Quantity feet =
+                new Quantity(1, Unit.FEET);
+
+        Quantity inch =
+                new Quantity(2, Unit.INCH);
+
+        Quantity expected =
+                new Quantity(1.17, Unit.FEET);
+
+        assertEquals(
+                expected,
+                feet.add(inch, Unit.FEET)
+        );
+    }
+
+    @Test
+    void shouldAddFeetAndYardInTargetUnitYard() {
+
+        Quantity feet =
+                new Quantity(3, Unit.FEET);
+
+        Quantity yard =
+                new Quantity(1, Unit.YARD);
+
+        Quantity expected =
+                new Quantity(2, Unit.YARD);
+
+        assertEquals(
+                expected,
+                feet.add(yard, Unit.YARD)
+        );
+    }
+
 }

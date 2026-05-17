@@ -38,17 +38,35 @@ public class Quantity {
     }
 
     public Quantity add(Quantity other) {
+        return add(other, Unit.CENTIMETER);
+    }
+
+    public Quantity add(
+            Quantity other,
+            Unit targetUnit
+    ) {
 
         validateQuantity(other);
 
         double totalBaseValue =
-                this.getValueInBaseUnit()
-                        + other.getValueInBaseUnit();
+                addBaseValues(other);
+
+        double convertedValue =
+                targetUnit.convertFromBaseUnit(
+                        totalBaseValue
+                );
 
         return new Quantity(
-                roundValue(totalBaseValue),
-                Unit.CENTIMETER
+                roundValue(convertedValue),
+                targetUnit
         );
+    }
+    private double addBaseValues(
+            Quantity other
+    ) {
+
+        return this.getValueInBaseUnit()
+                + other.getValueInBaseUnit();
     }
 
     private double getValueInBaseUnit() {
