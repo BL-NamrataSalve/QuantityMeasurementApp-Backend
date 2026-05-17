@@ -35,8 +35,15 @@ public class Quantity {
 
         Quantity quantity = (Quantity) object;
 
-        return Double.compare(quantity.value, value) == 0
-                && unit == quantity.unit;
+        double currentValueInBaseUnit = unit.toBaseUnit(value);
+        double otherValueInBaseUnit =
+                quantity.unit.toBaseUnit(quantity.value);
+
+
+        return Double.compare(
+                currentValueInBaseUnit,
+                otherValueInBaseUnit
+        ) == 0;
     }
 
     @Override

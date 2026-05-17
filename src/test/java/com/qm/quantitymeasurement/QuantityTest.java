@@ -15,4 +15,14 @@ public class QuantityTest {
 
         assertEquals(firstFeet, secondFeet);
     }
+
+    @Test
+    void shouldReturnTrueForFeetAndInchEquality() {
+
+        Quantity feet = new Quantity(1, Unit.FEET);
+        Quantity inch = new Quantity(12, Unit.INCH);
+
+        assertEquals(feet, inch);
+    }
+
 }
