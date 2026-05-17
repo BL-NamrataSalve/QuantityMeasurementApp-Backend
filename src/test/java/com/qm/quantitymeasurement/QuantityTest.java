@@ -3,7 +3,7 @@ package com.qm.quantitymeasurement;
 import com.qm.quantitymeasurement.enums.Unit;
 import com.qm.quantitymeasurement.model.Quantity;
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -77,6 +77,73 @@ public class QuantityTest {
 
         assertEquals(expected,
                 yard.convertTo(Unit.CENTIMETER));
+    }
+
+    @Test
+    void shouldAddFeetAndInchValues() {
+
+        Quantity feet =
+                new Quantity(1, Unit.FEET);
+
+        Quantity inch =
+                new Quantity(2, Unit.INCH);
+
+        Quantity expected =
+                new Quantity(35.56,
+                        Unit.CENTIMETER);
+
+        assertEquals(expected,
+                feet.add(inch));
+    }
+
+    @Test
+    void shouldAddTwoFeetValues() {
+
+        Quantity firstFeet =
+                new Quantity(1, Unit.FEET);
+
+        Quantity secondFeet =
+                new Quantity(1, Unit.FEET);
+
+        Quantity expected =
+                new Quantity(60.96,
+                        Unit.CENTIMETER);
+
+        assertEquals(expected,
+                firstFeet.add(secondFeet));
+    }
+
+    @Test
+    void shouldReturnSameResultForCommutativeAddition() {
+
+        Quantity feet =
+                new Quantity(1, Unit.FEET);
+
+        Quantity inch =
+                new Quantity(2, Unit.INCH);
+
+        assertEquals(
+                feet.add(inch),
+                inch.add(feet)
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionForNegativeValue() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Quantity(-1, Unit.FEET)
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionForNullUnit() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Quantity(1, null)
+        );
     }
 
 }

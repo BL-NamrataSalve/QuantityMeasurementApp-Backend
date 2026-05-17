@@ -4,6 +4,8 @@ import com.qm.quantitymeasurement.enums.Unit;
 
 import java.util.Objects;
 
+//import static java.lang.Math.round;
+
 public class Quantity {
 
     private static final double EPSILON = 0.0001;
@@ -12,6 +14,7 @@ public class Quantity {
     private final Unit unit;
 
     public Quantity(double value, Unit unit) {
+        validate(value, unit);
         this.value = value;
         this.unit = unit;
     }
@@ -24,10 +27,6 @@ public class Quantity {
         return unit;
     }
 
-    private double getValueInBaseUnit() {
-        return unit.convertToBaseUnit(value);
-    }
-
     public Quantity convertTo(Unit targetUnit) {
 
         double baseValue = getValueInBaseUnit();
@@ -36,6 +35,52 @@ public class Quantity {
                 targetUnit.convertFromBaseUnit(baseValue);
 
         return new Quantity(convertedValue, targetUnit);
+    }
+
+    public Quantity add(Quantity other) {
+
+        validateQuantity(other);
+
+        double totalBaseValue =
+                this.getValueInBaseUnit()
+                        + other.getValueInBaseUnit();
+
+        return new Quantity(
+                roundValue(totalBaseValue),
+                Unit.CENTIMETER
+        );
+    }
+
+    private double getValueInBaseUnit() {
+        return unit.convertToBaseUnit(value);
+    }
+
+    private void validate(double value, Unit unit) {
+
+        if (unit == null) {
+            throw new IllegalArgumentException(
+                    "Unit cannot be null"
+            );
+        }
+
+        if (value < 0) {
+            throw new IllegalArgumentException(
+                    "Value cannot be negative"
+            );
+        }
+    }
+
+        private void validateQuantity(Quantity quantity) {
+
+            if (quantity == null) {
+                throw new IllegalArgumentException(
+                        "Quantity cannot be null"
+                );
+            }
+        }
+
+    private double roundValue(double value) {
+        return Math.round(value * 100.0) / 100.0;
     }
 
     @Override
