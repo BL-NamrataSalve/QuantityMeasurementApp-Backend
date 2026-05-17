@@ -45,6 +45,7 @@ public class Quantity<T extends IMeasurable>{
     public Quantity<T> add(
             Quantity<T> other
     ) {
+        validateArithmeticSupport();
 
         T baseUnit =
                 (T) unit.getBaseUnit();
@@ -56,7 +57,7 @@ public class Quantity<T extends IMeasurable>{
             Quantity<T> other,
             T targetUnit
     ) {
-
+        validateArithmeticSupport();
         double resultBaseValue =
                 performOperation(
                         other,
@@ -77,6 +78,7 @@ public class Quantity<T extends IMeasurable>{
     public Quantity<T> subtract(
             Quantity<T> other
     ) {
+        validateArithmeticSupport();
 
         T baseUnit =
                 (T) unit.getBaseUnit();
@@ -88,6 +90,7 @@ public class Quantity<T extends IMeasurable>{
             Quantity<T> other,
             T targetUnit
     ) {
+        validateArithmeticSupport();
 
         double resultBaseValue =
                 performOperation(
@@ -109,6 +112,7 @@ public class Quantity<T extends IMeasurable>{
     public Quantity<T> divide(
             double divisor
     ) {
+        validateArithmeticSupport();
 
         validateDivision(divisor);
 
@@ -122,6 +126,7 @@ public class Quantity<T extends IMeasurable>{
             double divisor,
             T targetUnit
     ) {
+        validateArithmeticSupport();
 
         validateDivision(divisor);
 
@@ -188,6 +193,20 @@ public class Quantity<T extends IMeasurable>{
         if (divisor == 0) {
             throw new IllegalArgumentException(
                     "Division by zero is not allowed"
+            );
+        }
+    }
+
+    /**
+     * Validates arithmetic capability.
+     */
+    private void validateArithmeticSupport() {
+
+        if (!unit.supportsArithmetic()) {
+
+            throw new UnsupportedOperationException(
+                    "Arithmetic operation not supported "
+                            + "for this measurement type"
             );
         }
     }

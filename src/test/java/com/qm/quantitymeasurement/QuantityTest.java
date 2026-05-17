@@ -1,6 +1,7 @@
 package com.qm.quantitymeasurement;
 
 import com.qm.quantitymeasurement.enums.LengthUnit;
+import com.qm.quantitymeasurement.enums.TemperatureUnit;
 import com.qm.quantitymeasurement.enums.VolumeUnit;
 import com.qm.quantitymeasurement.enums.WeightUnit;
 import com.qm.quantitymeasurement.model.Quantity;
@@ -438,6 +439,69 @@ public class QuantityTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> litre.divide(0)
+        );
+    }
+
+    @Test
+    void shouldReturnTrueForCelsiusAndFahrenheitEquality() {
+
+        Quantity<TemperatureUnit> celsius =
+                new Quantity<>(100,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> fahrenheit =
+                new Quantity<>(212,
+                        TemperatureUnit.FAHRENHEIT);
+
+        assertEquals(celsius, fahrenheit);
+    }
+
+    @Test
+    void shouldConvertFahrenheitToCelsius() {
+
+        Quantity<TemperatureUnit> fahrenheit =
+                new Quantity<>(212,
+                        TemperatureUnit.FAHRENHEIT);
+
+        Quantity<TemperatureUnit> expected =
+                new Quantity<>(100,
+                        TemperatureUnit.CELSIUS);
+
+        assertEquals(
+                expected,
+                fahrenheit.convertTo(
+                        TemperatureUnit.CELSIUS
+                )
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionForTemperatureAddition() {
+
+        Quantity<TemperatureUnit> first =
+                new Quantity<>(100,
+                        TemperatureUnit.CELSIUS);
+
+        Quantity<TemperatureUnit> second =
+                new Quantity<>(50,
+                        TemperatureUnit.CELSIUS);
+
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> first.add(second)
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionForTemperatureDivision() {
+
+        Quantity<TemperatureUnit> celsius =
+                new Quantity<>(100,
+                        TemperatureUnit.CELSIUS);
+
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> celsius.divide(2)
         );
     }
 
