@@ -346,4 +346,99 @@ public class QuantityTest {
         );
     }
 
+    @Test
+    void shouldSubtractFeetValues() {
+
+        Quantity<LengthUnit> firstFeet =
+                new Quantity<>(5,
+                        LengthUnit.FEET);
+
+        Quantity<LengthUnit> secondFeet =
+                new Quantity<>(2,
+                        LengthUnit.FEET);
+
+        Quantity<LengthUnit> expected =
+                new Quantity<>(91.44,
+                        LengthUnit.CENTIMETER);
+
+        assertEquals(
+                expected,
+                firstFeet.subtract(secondFeet)
+        );
+    }
+
+    @Test
+    void shouldSubtractFeetAndInchInTargetUnitFeet() {
+
+        Quantity<LengthUnit> feet =
+                new Quantity<>(5,
+                        LengthUnit.FEET);
+
+        Quantity<LengthUnit> inch =
+                new Quantity<>(12,
+                        LengthUnit.INCH);
+
+        Quantity<LengthUnit> expected =
+                new Quantity<>(4,
+                        LengthUnit.FEET);
+
+        assertEquals(
+                expected,
+                feet.subtract(
+                        inch,
+                        LengthUnit.FEET
+                )
+        );
+    }
+
+    @Test
+    void shouldDivideLitreQuantity() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(10,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> expected =
+                new Quantity<>(5,
+                        VolumeUnit.LITRE);
+
+        assertEquals(
+                expected,
+                litre.divide(2)
+        );
+    }
+
+    @Test
+    void shouldDivideWeightQuantityInTargetUnit() {
+
+        Quantity<WeightUnit> kilogram =
+                new Quantity<>(10,
+                        WeightUnit.KILOGRAM);
+
+        Quantity<WeightUnit> expected =
+                new Quantity<>(5000,
+                        WeightUnit.GRAM);
+
+        assertEquals(
+                expected,
+                kilogram.divide(
+                        2,
+                        WeightUnit.GRAM
+                )
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionForDivisionByZero() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(10,
+                        VolumeUnit.LITRE);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> litre.divide(0)
+        );
+    }
+
 }

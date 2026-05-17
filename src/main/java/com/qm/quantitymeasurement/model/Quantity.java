@@ -76,12 +76,83 @@ public class Quantity<T extends IMeasurable>{
                 targetUnit
         );
     }
+
+    public Quantity<T> subtract(
+            Quantity<T> other
+    ) {
+
+        validateQuantity(other);
+
+        double resultBaseValue =
+                subtractBaseValues(other);
+
+        T baseUnit =
+                (T) unit.getBaseUnit();
+
+        return new Quantity<>(
+                roundValue(resultBaseValue),
+                baseUnit
+        );
+    }
+
+    public Quantity<T> subtract(
+            Quantity<T> other,
+            T targetUnit
+    ) {
+
+        validateQuantity(other);
+
+        double resultBaseValue =
+                subtractBaseValues(other);
+
+        double convertedValue =
+                targetUnit.convertFromBaseUnit(
+                        resultBaseValue
+                );
+
+        return new Quantity<>(
+                roundValue(convertedValue),
+                targetUnit
+        );
+    }
+
+    public Quantity<T> divide(
+            double divisor
+    ) {
+
+        validateDivision(divisor);
+
+        return new Quantity<>(
+                roundValue(value / divisor),
+                unit
+        );
+    }
+
+    public Quantity<T> divide(
+            double divisor,
+            T targetUnit
+    ) {
+
+        validateDivision(divisor);
+
+        return this.divide(divisor)
+                .convertTo(targetUnit);
+    }
+
     private double addBaseValues(
             Quantity<T> other
     ) {
 
         return this.getValueInBaseUnit()
                 + other.getValueInBaseUnit();
+    }
+
+    private double subtractBaseValues(
+            Quantity<T> other
+    ) {
+
+        return this.getValueInBaseUnit()
+                - other.getValueInBaseUnit();
     }
 
     private double getValueInBaseUnit() {
@@ -122,6 +193,17 @@ public class Quantity<T extends IMeasurable>{
                 );
             }
         }
+
+    private void validateDivision(
+            double divisor
+    ) {
+
+        if (divisor == 0) {
+            throw new IllegalArgumentException(
+                    "Division by zero is not allowed"
+            );
+        }
+    }
 
     private double roundValue(double value) {
         return Math.round(value * 100.0) / 100.0;
