@@ -1,13 +1,10 @@
 package com.qm.quantitymeasurement.repository;
 
-import com.qm.quantitymeasurement.dto.QuantityRequestDto;
-import com.qm.quantitymeasurement.dto.QuantityResponseDto;
+import com.qm.quantitymeasurement.entity.QuantityOperationEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface QuantityRepository {
-    void saveOperation(
-            QuantityRequestDto first,
-            QuantityRequestDto second,
-            String operationType,
-            QuantityResponseDto result
-    );
+import java.util.List;
+
+public interface QuantityRepository extends JpaRepository<QuantityOperationEntity, Long> {
+    List<QuantityOperationEntity> findByOperationType(String operationType);
 }
