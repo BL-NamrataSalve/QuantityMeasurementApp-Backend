@@ -1,9 +1,12 @@
 package com.qm.quantitymeasurement.model;
 
 import com.qm.quantitymeasurement.contracts.IMeasurable;
+import com.qm.quantitymeasurement.enums.LengthUnit;
 import com.qm.quantitymeasurement.operations.OperationType;
 
 import java.util.Objects;
+
+//import static java.lang.Math.round;
 
 public class Quantity<T extends IMeasurable>{
 
@@ -166,22 +169,22 @@ public class Quantity<T extends IMeasurable>{
         }
     }
 
-    private void validateQuantity( Quantity<T> quantity) {
+        private void validateQuantity( Quantity<T> quantity) {
 
-        if (quantity == null) {
-            throw new IllegalArgumentException(
-                    "Quantity cannot be null"
-            );
+            if (quantity == null) {
+                throw new IllegalArgumentException(
+                        "Quantity cannot be null"
+                );
+            }
+
+            if (this.unit.getMeasurementType()
+                    != quantity.unit.getMeasurementType()) {
+
+                throw new IllegalArgumentException(
+                        "Different measurement categories"
+                );
+            }
         }
-
-        if (this.unit.getMeasurementType()
-                != quantity.unit.getMeasurementType()) {
-
-            throw new IllegalArgumentException(
-                    "Different measurement categories"
-            );
-        }
-    }
 
     private void validateDivision(
             double divisor

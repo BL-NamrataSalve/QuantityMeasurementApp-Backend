@@ -3,13 +3,13 @@ package com.qm.quantitymeasurement.dto;
 public class QuantityRequestDto {
     private Double value;
     private String unit;
-
+    
     private Double firstValue;
     private String firstUnit;
-
+    
     private Double secondValue;
     private String secondUnit;
-
+    
     private String targetUnit;
     private Double divisor;
     private String operation;

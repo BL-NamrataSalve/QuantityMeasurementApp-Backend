@@ -4,13 +4,18 @@ import com.qm.quantitymeasurement.contracts.IMeasurable;
 import com.qm.quantitymeasurement.dto.QuantityRequestDto;
 import com.qm.quantitymeasurement.dto.QuantityResponseDto;
 import com.qm.quantitymeasurement.entity.QuantityOperationEntity;
+import com.qm.quantitymeasurement.entity.UserEntity;
 import com.qm.quantitymeasurement.mapper.QuantityMapper;
 import com.qm.quantitymeasurement.model.Quantity;
 import com.qm.quantitymeasurement.repository.QuantityRepository;
+import com.qm.quantitymeasurement.repository.UserRepository;
 import com.qm.quantitymeasurement.service.QuantityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -18,12 +23,31 @@ import java.util.List;
 public class QuantityServiceImpl implements QuantityService {
 
     private static final Logger log = LoggerFactory.getLogger(QuantityServiceImpl.class);
-
     private final QuantityRepository repository;
-
+    private final UserRepository userRepository;
     @Autowired
-    public QuantityServiceImpl(QuantityRepository repository) {
+    public QuantityServiceImpl(QuantityRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository=userRepository;
+    }
+
+    private UserEntity getAuthenticatedUser() {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+                Object principal = auth.getPrincipal();
+                String email;
+                if (principal instanceof UserDetails) {
+                    email = ((UserDetails) principal).getUsername();
+                } else {
+                    email = principal.toString();
+                }
+                return userRepository.findByEmail(email).orElse(null);
+            }
+        } catch (Exception e) {
+            log.warn("Failed to retrieve authenticated user: {}", e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -44,6 +68,7 @@ public class QuantityServiceImpl implements QuantityService {
             QuantityOperationEntity entity = new QuantityOperationEntity(
                     val1, u1, val2, u2, "ADDITION", result.getValue(), result.getUnit().toString()
             );
+            entity.setUser(getAuthenticatedUser());
             repository.save(entity);
 
             return new QuantityResponseDto(result.getValue(), result.getUnit().toString(), q1.getUnit().getMeasurementType().name());
@@ -71,6 +96,7 @@ public class QuantityServiceImpl implements QuantityService {
             QuantityOperationEntity entity = new QuantityOperationEntity(
                     val1, u1, val2, u2, "SUBTRACTION", result.getValue(), result.getUnit().toString()
             );
+            entity.setUser(getAuthenticatedUser());
             repository.save(entity);
 
             return new QuantityResponseDto(result.getValue(), result.getUnit().toString(), q1.getUnit().getMeasurementType().name());
@@ -87,16 +113,14 @@ public class QuantityServiceImpl implements QuantityService {
             double val1 = input.getFirstValue() != null ? input.getFirstValue() : (input.getValue() != null ? input.getValue() : 0.0);
             String u1 = input.getFirstUnit() != null ? input.getFirstUnit() : input.getUnit();
             double divisor = input.getDivisor() != null ? input.getDivisor() : (input.getSecondValue() != null ? input.getSecondValue() : 1.0);
-
             Quantity<IMeasurable> q1 = new Quantity<>(val1, QuantityMapper.parseUnit(u1));
             Quantity<IMeasurable> result = q1.divide(divisor);
             log.info("Division successful. Result: {}", result);
-
             QuantityOperationEntity entity = new QuantityOperationEntity(
                     val1, u1, divisor, "DIVISOR", "DIVISION", result.getValue(), result.getUnit().toString()
             );
+            entity.setUser(getAuthenticatedUser());
             repository.save(entity);
-
             return result.getValue();
         } catch (Exception e) {
             log.error("Failed to perform division: {}", e.getMessage(), e);
@@ -126,6 +150,7 @@ public class QuantityServiceImpl implements QuantityService {
             QuantityOperationEntity entity = new QuantityOperationEntity(
                     val, u, 0.0, targetUnit, "CONVERSION", result.getValue(), result.getUnit().toString()
             );
+            entity.setUser(getAuthenticatedUser());
             repository.save(entity);
 
             return new QuantityResponseDto(result.getValue(), result.getUnit().toString(), q.getUnit().getMeasurementType().name());
@@ -158,8 +183,8 @@ public class QuantityServiceImpl implements QuantityService {
             QuantityOperationEntity entity = new QuantityOperationEntity(
                     val1, u1, val2, u2, "COMPARISON", isEqual ? 1.0 : 0.0, isEqual ? "EQUAL" : "NOT_EQUAL"
             );
+            entity.setUser(getAuthenticatedUser());
             repository.save(entity);
-
             return new QuantityResponseDto(isEqual ? 1.0 : 0.0, isEqual ? "EQUAL" : "NOT_EQUAL", q1.getUnit().getMeasurementType().name());
         } catch (Exception e) {
             log.error("Failed to perform comparison: {}", e.getMessage(), e);
@@ -170,12 +195,20 @@ public class QuantityServiceImpl implements QuantityService {
     @Override
     public List<QuantityOperationEntity> getHistory() {
         log.info("Fetching all history records.");
+        UserEntity user = getAuthenticatedUser();
+        if (user != null) {
+            return repository.findByUser(user);
+        }
         return repository.findAll();
     }
 
     @Override
     public List<QuantityOperationEntity> getByOperation(String operation) {
         log.info("Fetching history records for operation: {}", operation);
+        UserEntity user = getAuthenticatedUser();
+        if (user != null) {
+            return repository.findByUserAndOperationType(user, operation);
+        }
         return repository.findByOperationType(operation);
     }
 }
