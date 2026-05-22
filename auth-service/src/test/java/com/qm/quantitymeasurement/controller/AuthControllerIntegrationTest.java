@@ -31,7 +31,7 @@ public class AuthControllerIntegrationTest {
         String uniqueEmail = "testuser_" + System.currentTimeMillis() + "@example.com";
         RegisterRequest registerReq = new RegisterRequest(uniqueEmail, "Test User", "password123");
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registerReq)))
                 .andExpect(status().isOk())
@@ -41,7 +41,7 @@ public class AuthControllerIntegrationTest {
 
         AuthRequest loginReq = new AuthRequest(uniqueEmail, "password123");
 
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginReq)))
                 .andExpect(status().isOk())
