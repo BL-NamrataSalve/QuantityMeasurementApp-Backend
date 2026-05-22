@@ -40,7 +40,12 @@ public class QuantityServiceImpl implements QuantityService {
             Quantity<IMeasurable> q1 = new Quantity<>(val1, QuantityMapper.parseUnit(u1));
             Quantity<IMeasurable> q2 = new Quantity<>(val2, QuantityMapper.parseUnit(u2));
 
-            Quantity<IMeasurable> result = q1.add(q2);
+            Quantity<IMeasurable> result;
+            if (input.getTargetUnit() != null && !input.getTargetUnit().isEmpty()) {
+                result = q1.add(q2, QuantityMapper.parseUnit(input.getTargetUnit()));
+            } else {
+                result = q1.add(q2);
+            }
             log.info("Addition successful. Result: {}", result);
 
             QuantityOperationEntity entity = new QuantityOperationEntity(
@@ -68,7 +73,12 @@ public class QuantityServiceImpl implements QuantityService {
             Quantity<IMeasurable> q1 = new Quantity<>(val1, QuantityMapper.parseUnit(u1));
             Quantity<IMeasurable> q2 = new Quantity<>(val2, QuantityMapper.parseUnit(u2));
 
-            Quantity<IMeasurable> result = q1.subtract(q2);
+            Quantity<IMeasurable> result;
+            if (input.getTargetUnit() != null && !input.getTargetUnit().isEmpty()) {
+                result = q1.subtract(q2, QuantityMapper.parseUnit(input.getTargetUnit()));
+            } else {
+                result = q1.subtract(q2);
+            }
             log.info("Subtraction successful. Result: {}", result);
 
             QuantityOperationEntity entity = new QuantityOperationEntity(
