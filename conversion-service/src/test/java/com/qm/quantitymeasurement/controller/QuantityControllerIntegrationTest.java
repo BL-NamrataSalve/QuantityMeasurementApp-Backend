@@ -33,7 +33,7 @@ public class QuantityControllerIntegrationTest {
         input.setSecondValue(2.0);
         input.setSecondUnit("INCH");
 
-        mockMvc.perform(post("/conversion/add")
+        mockMvc.perform(post("/api/v1/quantities/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class QuantityControllerIntegrationTest {
         input.setUnit("GALLON");
         input.setTargetUnit("LITRE");
 
-        mockMvc.perform(post("/conversion/convert")
+        mockMvc.perform(post("/api/v1/quantities/convert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
@@ -64,7 +64,7 @@ public class QuantityControllerIntegrationTest {
         input.setSecondValue(1.0);
         input.setSecondUnit("KILOGRAM");
 
-        mockMvc.perform(post("/conversion/subtract")
+        mockMvc.perform(post("/api/v1/quantities/subtract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
@@ -79,7 +79,7 @@ public class QuantityControllerIntegrationTest {
         input.setUnit("LITRE");
         input.setDivisor(2.0);
 
-        mockMvc.perform(post("/conversion/divide")
+        mockMvc.perform(post("/api/v1/quantities/divide")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
@@ -94,7 +94,7 @@ public class QuantityControllerIntegrationTest {
         input.setSecondValue(212.0);
         input.setSecondUnit("FAHRENHEIT");
 
-        mockMvc.perform(post("/conversion/compare")
+        mockMvc.perform(post("/api/v1/quantities/compare")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
@@ -111,17 +111,17 @@ public class QuantityControllerIntegrationTest {
         input.setSecondValue(2.0);
         input.setSecondUnit("INCH");
 
-        mockMvc.perform(post("/conversion/add")
+        mockMvc.perform(post("/api/v1/quantities/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/conversion/history"))
+        mockMvc.perform(get("/api/v1/quantities/history"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].operationType").value("ADDITION"));
 
-        mockMvc.perform(get("/conversion/history/ADDITION"))
+        mockMvc.perform(get("/api/v1/quantities/history/ADDITION"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
@@ -134,7 +134,7 @@ public class QuantityControllerIntegrationTest {
         input.setSecondValue(1.0);
         input.setSecondUnit("LITRE");
 
-        mockMvc.perform(post("/conversion/add")
+        mockMvc.perform(post("/api/v1/quantities/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isBadRequest());
@@ -148,7 +148,7 @@ public class QuantityControllerIntegrationTest {
         input.setSecondValue(50.0);
         input.setSecondUnit("CELSIUS");
 
-        mockMvc.perform(post("/conversion/add")
+        mockMvc.perform(post("/api/v1/quantities/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isBadRequest());

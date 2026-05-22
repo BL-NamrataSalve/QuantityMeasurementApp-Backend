@@ -91,6 +91,13 @@ public class QuantityServiceImpl implements QuantityService {
             double val1 = input.getFirstValue() != null ? input.getFirstValue() : (input.getValue() != null ? input.getValue() : 0.0);
             String u1 = input.getFirstUnit() != null ? input.getFirstUnit() : input.getUnit();
             double divisor = input.getDivisor() != null ? input.getDivisor() : (input.getSecondValue() != null ? input.getSecondValue() : 1.0);
+            
+            if (input.getSecondUnit() != null && !input.getSecondUnit().isEmpty() && !input.getSecondUnit().equalsIgnoreCase("N/A")) {
+                Quantity<IMeasurable> divisorQty = new Quantity<>(divisor, QuantityMapper.parseUnit(input.getSecondUnit()));
+                Quantity<IMeasurable> convertedDivisor = divisorQty.convertTo(QuantityMapper.parseUnit(u1));
+                divisor = convertedDivisor.getValue();
+            }
+
             Quantity<IMeasurable> q1 = new Quantity<>(val1, QuantityMapper.parseUnit(u1));
             Quantity<IMeasurable> result = q1.divide(divisor);
             log.info("Division successful. Result: {}", result);
