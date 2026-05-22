@@ -10,11 +10,14 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/auth/**
+          filters:
+            - StripPrefix=1
         - id: conversion-service
           uri: lb://conversion-service
           predicates:
             - Path=/conversion/**
           filters:
+            - StripPrefix=1
             - AuthenticationFilter
 eureka:
   client:
