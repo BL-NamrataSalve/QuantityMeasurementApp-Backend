@@ -2,12 +2,14 @@ server:
   port: ${PORT:8082}
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:conversion-service/.env[.properties]
   application:
     name: conversion-service
   datasource:
-    url: ${db_url:jdbc:mysql://mysql-17f92e09-quantitymeasurement-app.c.aivencloud.com:11428/defaultdb?useSSL=true&trustServerCertificate=true}
-    username: ${db_username:avnadmin}
+    url: ${db_url}
+    username: ${db_username}
     password: ${db_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -21,7 +23,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${eureka_url:https://eureka-service-qpx1.onrender.com/eureka/}
+      defaultZone: ${eureka_url}
 jwt:
-  secret: ${jwt_secret:9a4f2c8d3e7b1a5c6d8e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z}
+  secret: ${jwt_secret}
   expiration: 86400000
