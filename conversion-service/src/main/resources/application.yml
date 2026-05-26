@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: ${PORT:8082}
 spring:
   application:
     name: conversion-service
@@ -19,7 +19,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: https://eureka-service-qpx1.onrender.com/eureka/
+      defaultZone: ${eureka_url:https://eureka-service-qpx1.onrender.com/eureka/}
 jwt:
-  secret: 9a4f2c8d3e7b1a5c6d8e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z
+  secret: ${jwt_secret:9a4f2c8d3e7b1a5c6d8e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z}
   expiration: 86400000
