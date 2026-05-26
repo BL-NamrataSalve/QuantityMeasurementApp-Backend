@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8081}
+  port: ${PORT}
 spring:
   config:
     import:
@@ -8,9 +8,9 @@ spring:
   application:
     name: auth-service
   datasource:
-    url: ${db_url:jdbc:mysql://mysql-17f92e09-quantitymeasurement-app.c.aivencloud.com:11428/defaultdb?useSSL=true&trustServerCertificate=true}
-    username: ${db_username:avnadmin}
-    password: ${db_password:AVNS_bC5Vu1vpm4P_ZSgRdse}
+    url: ${db_url}
+    username: ${db_username}
+    password: ${db_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -25,19 +25,19 @@ spring:
       client:
         registration:
           google:
-            client-id: ${google_client_id:28705293733-rp2kfvnhktufvu229nkfctnbr680htu1.apps.googleusercontent.com}
-            client-secret: ${google_client_secret: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}
+            client-id: ${google_client_id}
+            client-secret: ${google_client_secret}
             scope: profile,email
 eureka:
   client:
     service-url:
-      defaultZone: ${eureka_url:https://eureka-service-qpx1.onrender.com/eureka/}
+      defaultZone: ${eureka_url}
   instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
-    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:true}
-    non-secure-port-enabled: ${EUREKA_NON_SECURE_PORT_ENABLED:true}
-    secure-port-enabled: ${EUREKA_SECURE_PORT_ENABLED:false}
-    secure-port: ${EUREKA_SECURE_PORT:443}
+    hostname: ${EUREKA_INSTANCE_HOSTNAME}
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS}
+    non-secure-port-enabled: ${EUREKA_NON_SECURE_PORT_ENABLED}
+    secure-port-enabled: ${EUREKA_SECURE_PORT_ENABLED}
+    secure-port: ${EUREKA_SECURE_PORT}
 jwt:
-  secret: ${jwt_secret:9a4f2c8d3e7b1a5c6d8e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z}
+  secret: ${jwt_secret}
   expiration: 86400000

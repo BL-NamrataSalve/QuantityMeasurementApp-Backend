@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8082}
+  port: ${PORT}
 spring:
   config:
     import:
@@ -25,11 +25,11 @@ eureka:
     service-url:
       defaultZone: ${eureka_url}
   instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
-    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:true}
-    non-secure-port-enabled: ${EUREKA_NON_SECURE_PORT_ENABLED:true}
-    secure-port-enabled: ${EUREKA_SECURE_PORT_ENABLED:false}
-    secure-port: ${EUREKA_SECURE_PORT:443}
+    hostname: ${EUREKA_INSTANCE_HOSTNAME}
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS}
+    non-secure-port-enabled: ${EUREKA_NON_SECURE_PORT_ENABLED}
+    secure-port-enabled: ${EUREKA_SECURE_PORT_ENABLED}
+    secure-port: ${EUREKA_SECURE_PORT}
 jwt:
   secret: ${jwt_secret}
   expiration: 86400000
