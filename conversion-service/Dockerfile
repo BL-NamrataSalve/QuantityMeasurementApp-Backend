@@ -21,8 +21,8 @@ USER spring:spring
 # Copy the built jar file
 COPY --from=builder /app/target/conversion-service-1.0-SNAPSHOT.jar app.jar
 
-# Expose default port (binds to PORT environment variable dynamically at runtime)
-EXPOSE 8082
+# Expose port (Render uses port 10000 by default for web services)
+EXPOSE 10000
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
