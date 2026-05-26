@@ -1,6 +1,8 @@
 server:
   port: ${PORT:8082}
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: conversion-service
   datasource:

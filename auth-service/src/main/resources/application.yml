@@ -1,12 +1,14 @@
 server:
   port: ${PORT:8081}
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: auth-service
   datasource:
     url: ${db_url:jdbc:mysql://mysql-17f92e09-quantitymeasurement-app.c.aivencloud.com:11428/defaultdb?useSSL=true&trustServerCertificate=true}
     username: ${db_username:avnadmin}
-    password: ${db_password}
+    password: ${db_password:AVNS_bC5Vu1vpm4P_ZSgRdse}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
