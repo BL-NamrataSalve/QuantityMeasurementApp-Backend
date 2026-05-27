@@ -1,4 +1,4 @@
-package com.qm.quantitymeasurement.controller;
+package com.qm.apigateway.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +11,11 @@ public class HealthCheckController {
 
     @GetMapping
     public String health() {
-        return "conversion-service is running perfectly!";
+        return "api-gateway is running perfectly!";
     }
 
     @RequestMapping(method = RequestMethod.HEAD)
     public void headHealth() {
+        // Return 200 OK for HEAD request (used by Render health check)
     }
 }
