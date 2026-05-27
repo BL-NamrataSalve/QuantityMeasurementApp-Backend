@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT}
 spring:
   config:
     import:
@@ -9,6 +9,20 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "https://quantitymeasurementapp-frontend-3p1b.onrender.com"
+              - "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
         - id: auth-service
           uri: lb://auth-service
@@ -23,6 +37,10 @@ spring:
           filters:
             - StripPrefix=1
             - AuthenticationFilter
+        - id: frontend-service
+          uri: https://quantitymeasurementapp-frontend-3p1b.onrender.com
+          predicates:
+            - Path=/**
 eureka:
   client:
     service-url:
