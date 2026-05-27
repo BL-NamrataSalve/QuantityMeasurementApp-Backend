@@ -13,7 +13,7 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins:
-              - "https://quantitymeasurementapp-frontend-3p1b.onrender.com"
+              - "${FRONTEND_URL}"
               - "http://localhost:5173"
             allowedMethods:
               - GET
@@ -38,7 +38,7 @@ spring:
             - StripPrefix=1
             - AuthenticationFilter
         - id: frontend-service
-          uri: https://quantitymeasurementapp-frontend-3p1b.onrender.com
+          uri: ${FRONTEND_URL}
           predicates:
             - Path=/**
 eureka:
