@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/quantities")
-@CrossOrigin(origins = "*")
 public class QuantityController {
 
     private static final Logger log = LoggerFactory.getLogger(QuantityController.class);
