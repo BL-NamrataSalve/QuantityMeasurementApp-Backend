@@ -41,3 +41,5 @@ eureka:
 jwt:
   secret: ${jwt_secret}
   expiration: ${jwt_expiration}
+frontend:
+  url: ${FRONTEND_URL}
