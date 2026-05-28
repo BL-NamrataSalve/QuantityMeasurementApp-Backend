@@ -32,4 +32,4 @@ eureka:
     secure-port: ${EUREKA_SECURE_PORT}
 jwt:
   secret: ${jwt_secret}
-  expiration: 86400000
+  expiration: ${jwt_expiration}
