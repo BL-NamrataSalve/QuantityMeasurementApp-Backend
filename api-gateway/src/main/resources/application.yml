@@ -8,6 +8,9 @@ spring:
   application:
     name: api-gateway
   cloud:
+    loadbalancer:
+      cache:
+        ttl: 5s
     gateway:
       globalcors:
         cors-configurations:
@@ -42,6 +45,7 @@ spring:
             - Path=/**
 eureka:
   client:
+    registry-fetch-interval-seconds: 5
     service-url:
       defaultZone: ${eureka_url}
   instance:

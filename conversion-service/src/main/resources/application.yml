@@ -24,6 +24,7 @@ eureka:
     service-url:
       defaultZone: ${eureka_url}
   instance:
+    lease-renewal-interval-in-seconds: 5
     hostname: ${EUREKA_INSTANCE_HOSTNAME}
     prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS}
     non-secure-port-enabled: ${EUREKA_NON_SECURE_PORT_ENABLED}
