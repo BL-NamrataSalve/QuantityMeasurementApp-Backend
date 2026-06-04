@@ -40,6 +40,6 @@ eureka:
     secure-port: ${EUREKA_SECURE_PORT}
 jwt:
   secret: ${jwt_secret}
-  expiration: ${jwt_expiration:86400000}
+  expiration: ${jwt_expiration:60000}
 frontend:
   url: ${FRONTEND_URL}

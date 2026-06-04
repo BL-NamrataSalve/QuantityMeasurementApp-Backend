@@ -20,7 +20,7 @@ public class JwtTokenProvider {
     @Value("${jwt.secret:defaultSecretKeyThatIsAtLeast256BitsLongAndSecure12345!}")
     private String secret;
 
-    @Value("${jwt.expiration:86400000}") // 24 hours
+    @Value("${jwt.expiration:60000}") // 60 seconds
     private long jwtExpiration;
 
     @Value("${jwt.refreshExpiration:604800000}") // 7 days
