@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         String token = jwtTokenProvider.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getEmail(), user.getName(), user.getRole());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        return new AuthResponse(token, refreshToken, user.getEmail(), user.getName(), user.getRole());
     }
 
     @Override
@@ -65,12 +66,26 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = jwtTokenProvider.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getEmail(), user.getName(), user.getRole());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        return new AuthResponse(token, refreshToken, user.getEmail(), user.getName(), user.getRole());
     }
 
     @Override
     public UserEntity getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    }
+
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
+        String email = jwtTokenProvider.extractUsername(refreshToken);
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Generate new tokens
+        String newToken = jwtTokenProvider.generateToken(email);
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(email);
+
+        return new AuthResponse(newToken, newRefreshToken, user.getEmail(), user.getName(), user.getRole());
     }
 }

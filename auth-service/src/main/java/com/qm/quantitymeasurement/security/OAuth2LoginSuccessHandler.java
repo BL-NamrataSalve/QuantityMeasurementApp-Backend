@@ -54,11 +54,12 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
 
         String token = jwtTokenProvider.generateToken(email);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(email);
 
         clearAuthenticationAttributes(request, response);
 
         // Redirect the user back to the client application with the JWT token in a query parameter
-        String targetUrl = frontendUrl + "/oauth2/redirect?token=" + token;
+        String targetUrl = frontendUrl + "/oauth2/redirect?token=" + token + "&refreshToken=" + refreshToken;
         
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }

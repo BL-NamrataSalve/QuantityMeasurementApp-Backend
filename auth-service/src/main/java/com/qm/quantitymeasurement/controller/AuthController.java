@@ -33,6 +33,11 @@ public class AuthController {
         return ResponseEntity.ok(userService.login(request));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@Valid @RequestBody com.qm.quantitymeasurement.dto.RefreshTokenRequest request) {
+        return ResponseEntity.ok(userService.refreshToken(request.getRefreshToken()));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserEntity> me() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

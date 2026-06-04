@@ -5,19 +5,18 @@ import com.qm.quantitymeasurement.dto.QuantityRequestDto;
 import com.qm.quantitymeasurement.dto.QuantityResponseDto;
 import com.qm.quantitymeasurement.entity.QuantityOperationEntity;
 import com.qm.quantitymeasurement.service.QuantityService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
 
+@Log4j2
 @RestController
 @RequestMapping("/api/v1/quantities")
 public class QuantityController {
-
-    private static final Logger log = LoggerFactory.getLogger(QuantityController.class);
 
     private final QuantityService service;
 
@@ -27,44 +26,44 @@ public class QuantityController {
     }
 
     @PostMapping("/add")
-    public QuantityResponseDto add(@Valid @RequestBody QuantityRequestDto input) {
+    public ResponseEntity<QuantityResponseDto> add(@Valid @RequestBody QuantityRequestDto input) {
         log.info("Received request to add quantities: {}", input);
-        return service.add(input);
+        return ResponseEntity.ok(service.add(input));
     }
 
     @PostMapping("/subtract")
-    public QuantityResponseDto subtract(@Valid @RequestBody QuantityRequestDto input) {
+    public ResponseEntity<QuantityResponseDto> subtract(@Valid @RequestBody QuantityRequestDto input) {
         log.info("Received request to subtract quantities: {}", input);
-        return service.subtract(input);
+        return ResponseEntity.ok(service.subtract(input));
     }
 
     @PostMapping("/divide")
-    public Double divide(@Valid @RequestBody QuantityRequestDto input) {
+    public ResponseEntity<Double> divide(@Valid @RequestBody QuantityRequestDto input) {
         log.info("Received request to divide quantity: {}", input);
-        return service.divide(input);
+        return ResponseEntity.ok(service.divide(input));
     }
 
     @PostMapping("/convert")
-    public QuantityResponseDto convert(@Valid @RequestBody QuantityRequestDto input) {
+    public ResponseEntity<QuantityResponseDto> convert(@Valid @RequestBody QuantityRequestDto input) {
         log.info("Received request to convert quantity: {}", input);
-        return service.convert(input);
+        return ResponseEntity.ok(service.convert(input));
     }
 
     @PostMapping("/compare")
-    public QuantityResponseDto compare(@Valid @RequestBody QuantityRequestDto input) {
+    public ResponseEntity<QuantityResponseDto> compare(@Valid @RequestBody QuantityRequestDto input) {
         log.info("Received request to compare quantities: {}", input);
-        return service.compare(input);
+        return ResponseEntity.ok(service.compare(input));
     }
 
     @GetMapping("/history")
-    public List<?> history() {
+    public ResponseEntity<List<?>> history() {
         log.info("Received request to fetch operation history");
-        return service.getHistory();
+        return ResponseEntity.ok(service.getHistory());
     }
 
     @GetMapping("/history/{operation}")
-    public List<?> historyByOperation(@PathVariable String operation) {
+    public ResponseEntity<List<?>> historyByOperation(@PathVariable String operation) {
         log.info("Received request to fetch operation history for: {}", operation);
-        return service.getByOperation(operation.toUpperCase());
+        return ResponseEntity.ok(service.getByOperation(operation.toUpperCase()));
     }
 }

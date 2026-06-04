@@ -8,5 +8,6 @@ import com.qm.quantitymeasurement.entity.UserEntity;
 public interface UserService {
     AuthResponse register(RegisterRequest request);
     AuthResponse login(AuthRequest request);
+    AuthResponse refreshToken(String refreshToken);
     UserEntity getUserByEmail(String email);
 }
